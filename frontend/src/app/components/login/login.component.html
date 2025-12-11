@@ -1,0 +1,178 @@
+<div class="login-container">
+
+    <button class="theme-toggle-btn" (click)="toggleTheme()">
+        {{ isDarkTheme ? '🌙' : '☀️' }}
+    </button>
+
+    <div class="visual-side" [ngClass]="{ 'peeking': monsterState === 'peek', 'shy': monsterState === 'shy', 'error': monsterState === 'error', 'blinking': isBlinking }">
+        <div class="monsters-baseline">
+
+            <svg width="0" height="0" style="position: absolute;">
+                <defs>
+                    <clipPath id="clip-eye-large"><circle cx="0" cy="0" r="14" /></clipPath>
+                    <clipPath id="clip-eye-medium"><circle cx="0" cy="0" r="10" /></clipPath>
+                </defs>
+            </svg>
+
+            <div class="monster-wrapper monster-purple" style="left: 60px; bottom: 0; z-index: 1;">
+                <svg width="180" height="320" viewBox="0 0 180 320">
+                    <rect x="20" y="20" width="140" height="300" rx="15" fill="#6366f1"/>
+
+                    <g transform="translate(90, 90)">
+                        <g [style.transform]="getLookTransform(8)">
+                            <g transform="translate(-30, 0)">
+                                <circle r="14" fill="white" />
+                                <g clip-path="url(#clip-eye-large)">
+                                    <circle r="6" class="pupil" [style.transform]="getLookTransform(4)"/>
+                                    <rect x="-20" y="-20" width="40" height="40" class="eyelid" fill="#6366f1"/>
+                                </g>
+                            </g>
+                            <g transform="translate(30, 0)">
+                                <circle r="14" fill="white" />
+                                <g clip-path="url(#clip-eye-large)">
+                                    <circle r="6" class="pupil" [style.transform]="getLookTransform(4)"/>
+                                    <rect x="-20" y="-20" width="40" height="40" class="eyelid" fill="#6366f1"/>
+                                </g>
+                            </g>
+                            <path [attr.d]="monsterState === 'error' ? 'M -10 40 Q 0 35 10 40' : 'M -10 35 Q 0 40 10 35'"
+                                  fill="none" stroke="black" stroke-width="4" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="monster-wrapper monster-black" style="left: 190px; bottom: 0; z-index: 2;">
+                <svg width="120" height="220" viewBox="0 0 120 220">
+                    <rect x="10" y="20" width="100" height="200" rx="10" fill="#1e293b"/>
+
+                    <g transform="translate(60, 70)">
+                        <g [style.transform]="getLookTransform(6)">
+
+                            <g transform="translate(-20, 0)">
+                                <circle r="10" fill="white" />
+                                <g clip-path="url(#clip-eye-medium)">
+                                    <circle r="4" class="pupil pupil-left" [style.transform]="getLookTransform(3)"/>
+                                    <rect x="-15" y="-15" width="30" height="30" class="eyelid" fill="#1e293b"/>
+                                </g>
+                                <path class="angry-eyelid-overlay" d="M -15 2 L 2 -15 L -15 -15 Z" fill="#1e293b" />
+                            </g>
+
+                            <g transform="translate(20, 0)">
+                                <circle r="10" fill="white" />
+                                <g clip-path="url(#clip-eye-medium)">
+                                    <circle r="4" class="pupil pupil-right" [style.transform]="getLookTransform(3)"/>
+                                    <rect x="-15" y="-15" width="30" height="30" class="eyelid" fill="#1e293b"/>
+                                </g>
+                                <path class="angry-eyelid-overlay" d="M 15 2 L -2 -15 L 15 -15 Z" fill="#1e293b" />
+                            </g>
+
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="monster-wrapper monster-yellow" style="left: 270px; bottom: 0; z-index: 3;">
+                <svg width="140" height="160" viewBox="0 0 140 160">
+                    <path d="M 20 160 L 20 70 Q 20 10 70 10 Q 120 10 120 70 L 120 160 Z" fill="#eab308"/>
+
+                    <g transform="translate(70, 70)">
+                        <g [style.transform]="getYellowFaceTransform()">
+
+                            <g transform="translate(-20, 0)">
+                                <circle r="6" fill="#1e293b" />
+                            </g>
+                            <line x1="5" y1="5" x2="65" y2="5" stroke="#1e293b" stroke-width="6" stroke-linecap="round"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+            <div class="monster-wrapper monster-orange" style="left: -20px; bottom: 0; z-index: 4;">
+                <svg width="240" height="140" viewBox="0 0 240 140">
+                    <path d="M 10 140 A 110 110 0 0 1 230 140 Z" fill="#f97316"/>
+
+                    <g transform="translate(120, 80)">
+                        <g [style.transform]="getLookTransform(10)">
+                            <g transform="translate(-30, 0)">
+                                <circle r="6" fill="#1e293b"/>
+                            </g>
+                            <g transform="translate(30, 0)">
+                                <circle r="6" fill="#1e293b"/>
+                            </g>
+                            <path [attr.d]="monsterState === 'error' ? 'M -12 35 Q 0 22 12 35 Z' : 'M -12 25 Q 0 38 12 25 Z'"
+                                  fill="#1e293b"/>
+                        </g>
+                    </g>
+                </svg>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="form-side">
+        <div class="login-content">
+            <div class="header">
+                <span class="logo-icon">✨</span>
+                <h1>Welcome back!</h1>
+                <p class="subtitle">Please enter your details</p>
+            </div>
+            <div *ngIf="isLoading" class="loading-overlay">
+                <div class="spinner"></div><p>Authorization...</p>
+            </div>
+            <div *ngIf="!isLoading">
+                <form (ngSubmit)="onSubmit()">
+                    <div class="form-group">
+                        <label>Login</label>
+                        <input type="text" [(ngModel)]="username" name="username" placeholder="Enter your login" (focus)="onEmailFocus()" (blur)="onBlur()" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <div class="password-wrapper">
+                            <input [type]="showPassword ? 'text' : 'password'" [(ngModel)]="password" name="password" placeholder="••••••••" (focus)="onPasswordFocus()" (blur)="onBlur()" (input)="onPasswordChange()" required>
+                            <div class="eye-icon" (click)="togglePasswordVisibility()">
+                                <svg *ngIf="showPassword" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+                                <svg *ngIf="!showPassword" viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>
+                            </div>
+                        </div>
+                        <div *ngIf="isRegisterMode && password" class="password-strength-indicator" style="margin-top: 8px;">
+                            <div style="display: flex; gap: 4px; margin-bottom: 4px;">
+                                <div *ngFor="let i of [1,2,3,4]"
+                                     style="flex: 1; height: 4px; border-radius: 2px; transition: background-color 0.3s;"
+                                     [style.background-color]="i <= passwordStrength ? passwordStrengthColor : '#e5e7eb'">
+                                </div>
+                            </div>
+                            <div style="font-size: 12px; text-align: center;" [style.color]="passwordStrengthColor">
+                                {{ passwordStrengthMessage }}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-info" *ngIf="failedAttempts > 0" style="margin-top: 10px; padding: 10px; background: rgba(239, 68, 68, 0.1); border-radius: 8px; color: #ef4444; font-size: 13px;">
+                        ⚠️ Неудачных попыток: {{ failedAttempts }}
+                        <div *ngIf="failedAttempts >= 10" style="margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(239, 68, 68, 0.2); font-size: 12px;">
+                            💡 Забыли пароль? Попробуйте войти через Google или Яндекс
+                        </div>
+                    </div>
+
+                    <div *ngIf="showCaptcha" style="margin: 15px 0; display: flex; justify-content: center;">
+                        <div class="g-recaptcha"
+                             [attr.data-sitekey]="captchaSiteKey"></div>
+                    </div>
+
+
+                    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+                    <button type="submit" class="btn-primary">Log In</button>
+                </form>
+                <div class="divider"><span>OR</span></div>
+                <div class="social-login">
+                    <button class="btn-social" (click)="loginWithGoogle()">
+                        <svg viewBox="0 0 48 48" width="20" height="20"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+                        Google
+                    </button>
+                    <button class="btn-social" (click)="loginWithYandex()"><span style="color: #fc3f1d; font-family: serif; font-size: 18px; font-weight: bold;">Я</span> Yandex</button>
+                </div>
+                <div class="footer-link">{{ isRegisterMode ? 'Already have an account?' : "Don't have an account?" }} <a (click)="toggleMode()">{{ isRegisterMode ? 'Log In' : 'Sign Up' }}</a></div>
+            </div>
+        </div>
+    </div>
+</div>

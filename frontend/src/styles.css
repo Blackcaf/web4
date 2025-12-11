@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap');
+
+:root {
+    --bg-color: #f8fafc;
+    --bg-gradient-start: rgba(99, 102, 241, 0.1);
+    --bg-gradient-end: rgba(236, 72, 153, 0.1);
+
+    --card-bg: #ffffff;
+    --card-border: rgba(255, 255, 255, 0.5);
+    --header-bg: rgba(255, 255, 255, 0.9);
+
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --text-inverse: #ffffff;
+
+    --input-bg: #f8fafc;
+    --input-border: #e2e8f0;
+
+    --table-header-bg: #f8fafc;
+    --table-border: #f1f5f9;
+
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --error: #ef4444;
+    --error-bg: rgba(239, 68, 68, 0.1);
+
+    --modal-overlay: rgba(0, 0, 0, 0.4);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+
+    --canvas-grid: #e2e8f0;
+    --canvas-axis: #64748b;
+    --canvas-text: #1e293b;
+    --canvas-bg: #ffffff;
+}
+
+[data-theme="dark"] {
+    --bg-color: #0f172a;
+    --bg-gradient-start: rgba(99, 102, 241, 0.15);
+    --bg-gradient-end: rgba(236, 72, 153, 0.15);
+
+    --card-bg: #1e293b;
+    --card-border: rgba(255, 255, 255, 0.05);
+    --header-bg: rgba(15, 23, 42, 0.9);
+
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+
+    --input-bg: #0f172a;
+    --input-border: #334155;
+
+    --table-header-bg: #1e293b;
+    --table-border: #334155;
+
+    --primary: #818cf8;
+    --primary-hover: #6366f1;
+
+    --modal-overlay: rgba(0, 0, 0, 0.7);
+    --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+
+    --canvas-grid: #334155;
+    --canvas-axis: #94a3b8;
+    --canvas-text: #f1f5f9;
+    --canvas-bg: #1e293b;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    color: var(--text-main);
+    background: var(--bg-color);
+    transition: background 0.3s, color 0.3s;
+    min-height: 100vh;
+}
+
+input,
+button {
+    font-family: inherit;
+}

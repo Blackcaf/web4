@@ -1,0 +1,188 @@
+<div class="main-container">
+
+    <header class="floating-header">
+        <div class="logo">
+            <span>Area Check</span>
+        </div>
+
+        <div class="controls-area">
+            <button class="btn-theme-toggle" (click)="toggleTheme()" title="Переключить тему">
+                {{ isDarkTheme ? '🌙' : '☀️' }}
+            </button>
+
+            <div class="user-badge">
+                <span>👤</span>
+                <span>{{ username }}</span>
+            </div>
+
+            <button class="btn-logout" (click)="logout()">
+                Выйти
+            </button>
+        </div>
+    </header>
+
+    <nav class="side-nav">
+        <a (click)="scrollTo('intro')" class="nav-dot" title="Инфо"></a>
+        <a (click)="scrollTo('workspace')" class="nav-dot" title="График"></a>
+        <a (click)="scrollTo('data')" class="nav-dot" title="Таблица"></a>
+    </nav>
+
+    <section id="intro" class="screen intro-screen">
+        <div class="intro-card">
+            <div class="intro-badge">Web Programming</div>
+            <h1>Лабораторная работа №4</h1>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="label">Студент</span>
+                    <span class="value">Мантуш Даниил Валерьевич</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Группа</span>
+                    <span class="value">P3219</span>
+                </div>
+                <div class="info-item">
+                    <span class="label">Вариант</span>
+                    <span class="value accent">4758</span>
+                </div>
+            </div>
+
+            <button class="btn-start" (click)="scrollTo('workspace')">
+                Начать работу
+            </button>
+        </div>
+
+        <div class="scroll-indicator" (click)="scrollTo('workspace')">
+            <span>Листай вниз</span>
+            <div class="arrow">↓</div>
+        </div>
+    </section>
+
+    <section id="workspace" class="screen workspace-screen">
+        <div class="content-wrapper">
+
+            <div class="input-section card">
+                <h2>Параметры</h2>
+
+                <div class="form-group">
+                    <label for="x">X (-5 ... 3)</label>
+                    <input
+                            type="text"
+                            id="x"
+                            [(ngModel)]="xInput"
+                            (input)="onXChange($event)"
+                            placeholder="Введите число"
+                            autocomplete="off"
+                            [class.input-error-border]="isXInvalid"
+                    >
+                    <div class="input-warning" *ngIf="isXInvalid">Введите число!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="y">Y (-3 ... 5)</label>
+                    <input
+                            type="text"
+                            id="y"
+                            [(ngModel)]="yInput"
+                            (input)="onYChange($event)"
+                            placeholder="Введите число"
+                            autocomplete="off"
+                            [class.input-error-border]="isYInvalid"
+                    >
+                    <div class="input-warning" *ngIf="isYInvalid">Введите число!</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="r">R (-5 ... 3)</label>
+                    <input
+                            type="text"
+                            id="r"
+                            [(ngModel)]="rInput"
+                            (input)="onRChange($event)"
+                            placeholder="Введите число"
+                            autocomplete="off"
+                            [class.input-error-border]="isRInvalid"
+                    >
+                    <div class="input-warning" *ngIf="isRInvalid">Введите число!</div>
+                    <div class="input-warning" *ngIf="isRNegative && !isRInvalid">Радиус не может быть отрицательным!</div>
+                </div>
+
+                <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+
+                <div class="button-group">
+                    <button class="btn-primary" (click)="checkPoint()">Проверить</button>
+                    <button class="btn-secondary" (click)="clearResults()">🗑️</button>
+                </div>
+            </div>
+
+            <div class="canvas-section card">
+                <h2>Визуализация</h2>
+                <div class="canvas-container">
+                    <canvas
+                        #canvas
+                        width="600"
+                        height="600"
+                        style="width: 300px; height: 300px;"
+                        (click)="onCanvasClick()"
+                        (mousemove)="onCanvasMouseMove($event)"
+                        (mouseleave)="onCanvasMouseLeave()"
+                    ></canvas>
+                    <p class="hint" *ngIf="!isRNegative && currentR">
+                        Курсор ограничен допустимой областью
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section id="data" class="screen data-screen">
+        <div class="table-card card">
+            <div class="table-header">
+                <h2>История проверок <span class="count-badge">{{ results.length }} записей</span></h2>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>R</th>
+                        <th>Результат</th>
+                        <th>Время</th>
+                        <th>Скрипт</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let result of results">
+                        <td>{{ result.x }}</td>
+                        <td>{{ result.y }}</td>
+                        <td>{{ result.r }}</td>
+                        <td>
+                <span class="badge" [class.badge-hit]="result.hit" [class.badge-miss]="!result.hit">
+                  {{ result.hit ? 'Попадание' : 'Промах' }}
+                </span>
+                        </td>
+                        <td>{{ result.timestamp | date:'HH:mm:ss' }}</td>
+                        <td>{{ result.executionTime }} мкс</td>
+                    </tr>
+                    <tr *ngIf="results.length === 0">
+                        <td colspan="6" class="empty-state">Нет данных для отображения</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" *ngIf="showMathModal" (click)="closeMathModal()">
+        <div class="modal-content" (click)="$event.stopPropagation()">
+            <span class="modal-icon">📐</span>
+            <h3 class="modal-title">Ошибка ввода</h3>
+            <p class="modal-text">Вы математику в школе проходили? <br>Радиус не может быть отрицательным.</p>
+            <button class="btn-modal" (click)="closeMathModal()">Проходил</button>
+        </div>
+    </div>
+
+</div>
