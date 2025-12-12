@@ -4,16 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.Map;
-
 @Service
 public class AuditService {
 
     private static final Logger logger = LoggerFactory.getLogger("AUDIT");
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public void logSuccessfulLogin(String username, String ipAddress, String userAgent) {
         logger.info("[LOGIN_SUCCESS] username={}, ip={}, userAgent={}",
@@ -36,22 +30,9 @@ public class AuditService {
                      username, ipAddress, activity);
     }
 
-    public void logIPBlocked(String ipAddress, String reason, int minutes) {
-        logger.error("[IP_BLOCKED] ip={}, reason={}, durationMinutes={}",
-                     ipAddress, reason, minutes);
-    }
-
     public void logRegistration(String username, String ipAddress, String method) {
         logger.info("[REGISTRATION] username={}, ip={}, authProvider={}",
                     username, ipAddress, method);
-    }
-
-    public void logPasswordChange(String username, String ipAddress) {
-        String message = String.format(
-                "[PASSWORD CHANGE] User: %s | IP: %s | Time: %s",
-                username, ipAddress, LocalDateTime.now().format(formatter)
-        );
-        logger.info(message);
     }
 }
 

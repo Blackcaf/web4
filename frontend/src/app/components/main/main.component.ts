@@ -138,12 +138,7 @@ export class MainComponent implements OnInit, AfterViewInit {
 
                 const finalR = parseFloat(val);
                 this.currentR = finalR;
-
-                if (finalR < 0) {
-                    this.isRNegative = true;
-                } else {
-                    this.isRNegative = false;
-                }
+                this.isRNegative = finalR < 0;
             } else {
                 this.currentR = null;
                 this.isRNegative = false;

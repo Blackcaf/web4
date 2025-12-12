@@ -8,7 +8,6 @@ import com.nlshakal.web4.service.oauth.OAuthService;
 import com.nlshakal.web4.util.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -144,11 +143,5 @@ public class AuthService {
                 .requiresCaptcha(false)
                 .failedAttempts(0)
                 .build();
-    }
-
-
-    public User getUserByUsername(String username) {
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Пользователь не найден"));
     }
 }

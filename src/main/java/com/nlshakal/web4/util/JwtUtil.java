@@ -7,7 +7,6 @@ import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-
 import javax.crypto.SecretKey;
 import java.util.Date;
 
@@ -48,20 +47,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
-    }
-
-    public String getUsernameFromToken(String token) {
-        return extractUsername(token);
-    }
-
-    public Long extractUserId(String token) {
-        return extractClaims(token).get("userId", Long.class);
-    }
-
     public Long getUserIdFromToken(String token) {
-        return extractUserId(token);
+        return extractClaims(token).get("userId", Long.class);
     }
 
     public boolean validateToken(String token) {

@@ -36,14 +36,14 @@ public class Web4Application {
                 }
             });
 
-            System.out.println("✅ Environment variables loaded from .env file");
-            System.out.println("   - jwt.secret: " + (System.getProperty("jwt.secret") != null && System.getProperty("jwt.secret").length() > 50 ? "✓" : "✗"));
-            System.out.println("   - captcha.secret: " + (System.getProperty("captcha.secret") != null ? "✓" : "✗"));
-            System.out.println("   - DB_URL: " + (System.getProperty("DB_URL") != null ? "✓" : "✗"));
+            System.out.println("Environment variables loaded from .env file");
+            System.out.println("- jwt.secret: " + (System.getProperty("jwt.secret") != null && System.getProperty("jwt.secret").length() > 50 ? "✓" : "✗"));
+            System.out.println("- captcha.secret: " + (System.getProperty("captcha.secret") != null ? "✓" : "✗"));
+            System.out.println("- DB_URL: " + (System.getProperty("DB_URL") != null ? "✓" : "✗"));
 
         } catch (Exception e) {
-            System.err.println("⚠️ Warning: .env file not found, using system environment variables");
-            System.err.println("   Make sure all required environment variables are set!");
+            System.err.println("Warning: .env file not found, using system environment variables");
+            System.err.println("Make sure all required environment variables are set!");
         }
     }
 

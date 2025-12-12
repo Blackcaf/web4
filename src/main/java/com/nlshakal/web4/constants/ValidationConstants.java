@@ -6,15 +6,6 @@ public final class ValidationConstants {
         throw new UnsupportedOperationException("This is a constants class and cannot be instantiated");
     }
 
-    public static final double X_MIN = -5.0;
-    public static final double X_MAX = 3.0;
-
-    public static final double Y_MIN = -3.0;
-    public static final double Y_MAX = 5.0;
-
-    public static final double R_MIN = 0.0;
-    public static final double R_MAX = 3.0;
-
     public static final String X_MIN_MESSAGE = "X должен быть >= -5";
     public static final String X_MAX_MESSAGE = "X должен быть <= 3";
 

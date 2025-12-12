@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { LoginRequest, AuthResponse } from '../models/auth.model';
-import { environment } from '../../environments/environment';
 import { CookieService } from '../utils/cookie.service';
 
 @Injectable({
@@ -14,7 +13,6 @@ export class AuthService {
   private readonly USERNAME_KEY = 'username';
 
   private currentUserSubject = new BehaviorSubject<string | null>(this.getUsername());
-  public currentUser$ = this.currentUserSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 

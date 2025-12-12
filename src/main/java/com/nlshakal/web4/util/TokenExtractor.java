@@ -11,12 +11,6 @@ public class TokenExtractor {
     private final JwtUtil jwtUtil;
 
 
-    public String extractUsername(HttpHeaders headers) {
-        String token = extractToken(headers);
-        validateToken(token);
-        return jwtUtil.getUsernameFromToken(token);
-    }
-
     public Long extractUserId(HttpHeaders headers) {
         String token = extractToken(headers);
         validateToken(token);

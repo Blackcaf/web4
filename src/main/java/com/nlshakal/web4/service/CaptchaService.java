@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-
 @Service
 public class CaptchaService {
 
@@ -41,10 +40,6 @@ public class CaptchaService {
             System.err.println("Captcha verification error: " + e.getMessage());
             return false;
         }
-    }
-
-    public boolean isCaptchaEnabled() {
-        return captchaEnabled;
     }
 }
 
