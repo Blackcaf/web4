@@ -12,10 +12,6 @@ export class CaptchaManager {
         return this.showCaptcha;
     }
 
-    isSolved(): boolean {
-        return this.captchaSolved;
-    }
-
     show(): void {
         this.showCaptcha = true;
         this.captchaSolved = false;
@@ -68,9 +64,6 @@ export class CaptchaManager {
         try {
             grecaptcha.render(container, {
                 sitekey: this.siteKey,
-                callback: () => {
-                    this.captchaSolved = true;
-                },
                 'expired-callback': () => {
                     this.captchaSolved = false;
                 }

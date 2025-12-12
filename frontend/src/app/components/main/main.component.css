@@ -81,6 +81,7 @@
 .main-container {
     height: 100vh;
     overflow-y: scroll;
+    overflow-x: hidden;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     background: var(--bg-color);
@@ -782,6 +783,7 @@ canvas {
     overflow-x: hidden;
     border-radius: 12px;
     border: 1px solid var(--table-border);
+    max-width: 100%;
 }
 
 .table-container {
@@ -813,14 +815,43 @@ canvas {
 table {
     width: 100%;
     border-collapse: collapse;
-    table-layout: fixed;
+}
+
+table th:nth-child(1),
+table td:nth-child(1) {
+    width: 12%;
+}
+
+table th:nth-child(2),
+table td:nth-child(2) {
+    width: 12%;
+}
+
+table th:nth-child(3),
+table td:nth-child(3) {
+    width: 12%;
+}
+
+table th:nth-child(4),
+table td:nth-child(4) {
+    width: 20%;
+    min-width: 140px;
+}
+
+table th:nth-child(5),
+table td:nth-child(5) {
+    width: 15%;
+}
+
+table th:nth-child(6),
+table td:nth-child(6) {
+    width: 15%;
 }
 
 table td,
 table th {
     word-wrap: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible;
 }
 
 th, td {
@@ -927,3 +958,126 @@ tbody tr:hover td {
     .canvas-section { order: 1; } .input-section { order: 2; }
     .main-container { scroll-snap-type: none; }
 }
+
+@media (max-width: 768px) {
+    .table-container {
+        overflow-x: hidden;
+    }
+
+    table {
+        font-size: 14px;
+    }
+
+    th, td {
+        padding: 12px 8px;
+    }
+
+    table th:nth-child(1),
+    table td:nth-child(1) {
+        width: 10%;
+    }
+
+    table th:nth-child(2),
+    table td:nth-child(2) {
+        width: 10%;
+    }
+
+    table th:nth-child(3),
+    table td:nth-child(3) {
+        width: 10%;
+    }
+
+    table th:nth-child(4),
+    table td:nth-child(4) {
+        width: 25%;
+        min-width: 110px;
+    }
+
+    table th:nth-child(5),
+    table td:nth-child(5) {
+        width: 20%;
+    }
+
+    table th:nth-child(6),
+    table td:nth-child(6) {
+        width: 18%;
+    }
+
+    .badge {
+        padding: 4px 8px;
+        font-size: 11px;
+        white-space: nowrap;
+    }
+
+    .floating-header {
+        padding: 15px 20px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .user-badge {
+        font-size: 12px;
+        padding: 4px 12px;
+    }
+
+    .controls-area {
+        gap: 10px;
+    }
+
+    .btn-theme-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+    }
+
+    .info-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .intro-card {
+        padding: 30px 40px;
+    }
+
+    .intro-card h1 {
+        font-size: 32px;
+    }
+}
+
+@media (max-width: 480px) {
+    .table-card {
+        padding: 20px 15px;
+    }
+
+    th, td {
+        padding: 10px 4px;
+        font-size: 12px;
+    }
+
+    .badge {
+        padding: 3px 6px;
+        font-size: 10px;
+    }
+
+    table th:nth-child(4),
+    table td:nth-child(4) {
+        width: 28%;
+        min-width: 95px;
+    }
+
+    .table-header h2 {
+        font-size: 16px;
+    }
+
+    .count-badge {
+        font-size: 11px;
+        padding: 4px 10px;
+    }
+
+    tbody tr:hover {
+        transform: none;
+    }
+}
+

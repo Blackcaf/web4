@@ -17,23 +17,25 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   register(request: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/register`, request)
+    return this.http.post<AuthResponse>(`${this.API_URL}/register`, request, { withCredentials: true })
       .pipe(tap(response => this.handleAuth(response)));
   }
 
   login(request: LoginRequest): Observable<AuthResponse> {
-    return this.http.post<AuthResponse>(`${this.API_URL}/login`, request)
+    return this.http.post<AuthResponse>(`${this.API_URL}/login`, request, { withCredentials: true })
       .pipe(tap(response => this.handleAuth(response)));
   }
 
-  logout(): void {
-    CookieService.delete(this.TOKEN_KEY);
-    CookieService.delete(this.USERNAME_KEY);
-    this.currentUserSubject.next(null);
+  logout(): Observable<void> {
+    return this.http.post<void>(`${this.API_URL}/logout`, {}, { withCredentials: true })
+      .pipe(tap(() => {
+        CookieService.delete(this.USERNAME_KEY);
+        this.currentUserSubject.next(null);
+      }));
   }
 
   socialLogin(code: string, provider: 'google' | 'yandex'): Observable<AuthResponse> {
-      return this.http.post<AuthResponse>(`${this.API_URL}/social`, { code, provider })
+      return this.http.post<AuthResponse>(`${this.API_URL}/social`, { code, provider }, { withCredentials: true })
           .pipe(tap(response => this.handleAuth(response)));
   }
 
@@ -50,11 +52,7 @@ export class AuthService {
   }
 
   private handleAuth(response: AuthResponse): void {
-    if (response.token) {
-      CookieService.set(this.TOKEN_KEY, response.token, 1);
-    }
     if (response.username) {
-      CookieService.set(this.USERNAME_KEY, response.username, 1);
       this.currentUserSubject.next(response.username);
     } else {
       this.currentUserSubject.next(null);

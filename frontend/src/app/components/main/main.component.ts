@@ -252,8 +252,10 @@ export class MainComponent implements OnInit, AfterViewInit {
     closeMathModal(): void { this.showMathModal = false; }
     toggleTheme(): void { this.themeService.toggleTheme(); }
     logout(): void {
-        this.authService.logout();
-        this.router.navigate(['/login']);
+        this.authService.logout().subscribe({
+            next: () => this.router.navigate(['/login']),
+            error: () => this.router.navigate(['/login'])
+        });
     }
 
 

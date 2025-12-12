@@ -11,10 +11,6 @@ export class MonsterAnimationManager {
         return this.state;
     }
 
-    setState(state: MonsterState): void {
-        this.state = state;
-    }
-
     isInBlinkingState(): boolean {
         return this.isBlinking;
     }

@@ -39,7 +39,25 @@ public class AuthResource {
         try {
             AuthResponse response = authService.register(request, ipAddress, userAgent);
             rateLimitService.resetIP(ipAddress);
-            return Response.ok(response).build();
+
+            NewCookie tokenCookie = new NewCookie.Builder("auth_token")
+                    .value(response.getToken())
+                    .path("/")
+                    .maxAge(86400)
+                    .httpOnly(true)
+                    .sameSite(NewCookie.SameSite.STRICT)
+                    .build();
+
+            NewCookie usernameCookie = new NewCookie.Builder("username")
+                    .value(response.getUsername())
+                    .path("/")
+                    .maxAge(86400)
+                    .sameSite(NewCookie.SameSite.STRICT)
+                    .build();
+
+            return Response.ok(response)
+                    .cookie(tokenCookie, usernameCookie)
+                    .build();
         } catch (RuntimeException e) {
             return responseBuilder.badRequest(e.getMessage());
         }
@@ -60,7 +78,25 @@ public class AuthResource {
             if (response.getToken() != null) {
                 rateLimitService.resetIP(ipAddress);
             }
-            return Response.ok(response).build();
+
+            NewCookie tokenCookie = new NewCookie.Builder("auth_token")
+                    .value(response.getToken())
+                    .path("/")
+                    .maxAge(86400)
+                    .httpOnly(true)
+                    .sameSite(NewCookie.SameSite.STRICT)
+                    .build();
+
+            NewCookie usernameCookie = new NewCookie.Builder("username")
+                    .value(response.getUsername())
+                    .path("/")
+                    .maxAge(86400)
+                    .sameSite(NewCookie.SameSite.STRICT)
+                    .build();
+
+            return Response.ok(response)
+                    .cookie(tokenCookie, usernameCookie)
+                    .build();
         } catch (RuntimeException e) {
             return responseBuilder.unauthorized(e.getMessage());
         }
@@ -79,9 +115,50 @@ public class AuthResource {
         try {
             AuthResponse response = authService.socialLogin(request, ipAddress, userAgent);
             rateLimitService.resetIP(ipAddress);
-            return Response.ok(response).build();
+
+            NewCookie tokenCookie = new NewCookie.Builder("auth_token")
+                    .value(response.getToken())
+                    .path("/")
+                    .maxAge(86400)
+                    .httpOnly(true)
+                    .sameSite(NewCookie.SameSite.STRICT)
+                    .build();
+
+            NewCookie usernameCookie = new NewCookie.Builder("username")
+                    .value(response.getUsername())
+                    .path("/")
+                    .maxAge(86400)
+                    .sameSite(NewCookie.SameSite.STRICT)
+                    .build();
+
+            return Response.ok(response)
+                    .cookie(tokenCookie, usernameCookie)
+                    .build();
         } catch (RuntimeException e) {
             return responseBuilder.badRequest(e.getMessage());
         }
+    }
+
+    @POST
+    @Path("/logout")
+    public Response logout() {
+        NewCookie tokenCookie = new NewCookie.Builder("auth_token")
+                .value("")
+                .path("/")
+                .maxAge(0)
+                .httpOnly(true)
+                .sameSite(NewCookie.SameSite.STRICT)
+                .build();
+
+        NewCookie usernameCookie = new NewCookie.Builder("username")
+                .value("")
+                .path("/")
+                .maxAge(0)
+                .sameSite(NewCookie.SameSite.STRICT)
+                .build();
+
+        return Response.ok()
+                .cookie(tokenCookie, usernameCookie)
+                .build();
     }
 }
