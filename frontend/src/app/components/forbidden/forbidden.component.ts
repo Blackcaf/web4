@@ -2,6 +2,10 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
+/**
+ * Компонент страницы 403 Forbidden.
+ * Отображается при попытке доступа к защищенным маршрутам без аутентификации.
+ */
 @Component({
     selector: 'app-forbidden',
     standalone: true,
@@ -12,6 +16,9 @@ import { Router } from '@angular/router';
 export class ForbiddenComponent {
     constructor(private router: Router) {}
 
+    /**
+     * Перенаправляет пользователя на страницу логина.
+     */
     goHome() {
         this.router.navigate(['/login']);
     }

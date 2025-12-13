@@ -12,6 +12,11 @@ export class AuthGuard implements CanActivate {
         private router: Router
     ) {}
 
+    /**
+     * Проверяет, может ли пользователь активировать маршрут.
+     *
+     * @returns true если пользователь аутентифицирован, false и редирект на /403 в противном случае
+     */
     canActivate(): boolean {
         if (this.authService.isAuthenticated()) {
             return true;

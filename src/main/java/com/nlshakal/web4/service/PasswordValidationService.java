@@ -17,6 +17,12 @@ public class PasswordValidationService {
         return PASSWORD_PATTERN.matcher(password).matches();
     }
 
+    /**
+     * Возвращает детальное сообщение о причине невалидности пароля.
+     *
+     * @param password пароль для анализа
+     * @return сообщение об ошибке или "OK" если пароль валиден
+     */
     public String getValidationMessage(String password) {
         if (password == null || password.isEmpty()) {
             return "Пароль не может быть пустым";

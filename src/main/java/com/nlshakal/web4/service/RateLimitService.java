@@ -50,10 +50,22 @@ public class RateLimitService {
         return true;
     }
 
+    /**
+     * Добавляет IP в черный список на указанное время.
+     *
+     * @param ipAddress IP адрес для блокировки
+     * @param minutes количество минут блокировки
+     */
     public void blacklistIP(String ipAddress, int minutes) {
         blacklistedIPs.put(ipAddress, LocalDateTime.now().plusMinutes(minutes));
     }
 
+    /**
+     * Сбрасывает счетчики запросов для IP адреса.
+     * Используется после успешной аутентификации.
+     *
+     * @param ipAddress IP адрес для сброса
+     */
     public void resetIP(String ipAddress) {
         requests.remove(ipAddress);
     }

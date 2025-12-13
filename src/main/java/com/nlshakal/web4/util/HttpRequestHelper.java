@@ -23,6 +23,12 @@ public class HttpRequestHelper {
         return ip != null ? ip : "unknown";
     }
 
+    /**
+     * Извлекает User-Agent из заголовков запроса.
+     *
+     * @param request HTTP запрос
+     * @return User-Agent строка или "unknown" если отсутствует
+     */
     public String extractUserAgent(HttpServletRequest request) {
         String userAgent = request.getHeader("User-Agent");
         return userAgent != null ? userAgent : "unknown";

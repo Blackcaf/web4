@@ -4,7 +4,18 @@ export interface PasswordStrengthResult {
     color: string;
 }
 
+/**
+ * Индикатор силы пароля на основе длины.
+ * Предоставляет визуальную оценку надежности пароля для UI.
+ */
 export class PasswordStrengthIndicator {
+    /**
+     * Вычисляет визуальную силу пароля на основе его длины.
+     *
+     * @param password - Пароль для анализа
+     * @param isRegisterMode - Флаг режима регистрации (индикатор показывается только при регистрации)
+     * @returns Объект с силой (0-4), сообщением и цветом
+     */
     calculateVisualStrength(password: string, isRegisterMode: boolean): PasswordStrengthResult {
         if (!isRegisterMode || !password) {
             return { strength: 0, message: '', color: '#e5e7eb' };

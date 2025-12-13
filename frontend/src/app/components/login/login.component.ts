@@ -10,6 +10,17 @@ import { MonsterAnimationManager, MonsterState } from '../../utils/monster-anima
 import { CaptchaManager } from '../../utils/captcha.manager';
 import { PasswordStrengthIndicator } from '../../utils/password-validator';
 
+/**
+ * Компонент страницы входа и регистрации.
+ *
+ * Основные возможности:
+ * - Вход и регистрация по email/паролю
+ * - OAuth 2.0 аутентификация (Google, Yandex)
+ * - Google reCAPTCHA v2 после 5 неудачных попыток
+ * - Анимированный монстр, следящий за курсором
+ * - Визуальная индикация силы пароля
+ * - Переключение темы (светлая/темная)
+ */
 @Component({
     selector: 'app-login',
     standalone: true,

@@ -52,6 +52,13 @@ public class ResultService {
         return toResponse(result);
     }
 
+    /**
+     * Получает историю всех проверок пользователя.
+     * Результаты отсортированы по времени в обратном порядке (новые первыми).
+     *
+     * @param userId ID пользователя
+     * @return список результатов проверок
+     */
     public List<ResultResponse> getUserResults(Long userId) {
         User user = new User();
         user.setId(userId);
@@ -61,6 +68,11 @@ public class ResultService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * Удаляет все результаты проверок пользователя.
+     *
+     * @param userId ID пользователя
+     */
     @Transactional
     public void clearUserResults(Long userId) {
         User user = new User();

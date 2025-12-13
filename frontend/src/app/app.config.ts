@@ -5,6 +5,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { routes } from './app.routes';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 
+/**
+ * Глобальная конфигурация Angular приложения.
+ * Регистрирует провайдеры для маршрутизации, HTTP клиента и интерсепторов.
+ */
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes),

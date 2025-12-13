@@ -28,6 +28,12 @@ public class RuntimeExceptionMapper implements ExceptionMapper<RuntimeException>
                 .build();
     }
 
+    /**
+     * Определяет HTTP статус на основе текста сообщения исключения.
+     *
+     * @param exception исключение для анализа
+     * @return подходящий HTTP статус (404, 401, 403 или 400)
+     */
     private Response.Status determineStatus(RuntimeException exception) {
         String message = exception.getMessage().toLowerCase();
 

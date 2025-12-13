@@ -1,5 +1,9 @@
 package com.nlshakal.web4.constants;
 
+/**
+ * Константы безопасности для защиты приложения.
+ * Определяет лимиты на попытки входа, rate limiting и обнаружение подозрительной активности.
+ */
 public final class SecurityConstants {
 
     private SecurityConstants() {

@@ -19,6 +19,9 @@ export class ThemeService {
         }
     }
 
+    /**
+     * Переключает тему между светлой и темной.
+     */
     toggleTheme(): void {
         const newTheme = this.themeSubject.value === 'light' ? 'dark' : 'light';
         this.setTheme(newTheme);

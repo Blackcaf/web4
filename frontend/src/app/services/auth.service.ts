@@ -39,14 +39,29 @@ export class AuthService {
           .pipe(tap(response => this.handleAuth(response)));
   }
 
+  /**
+   * Получает JWT токен из cookies.
+   *
+   * @returns JWT токен или null если не найден
+   */
   getToken(): string | null {
     return CookieService.get(this.TOKEN_KEY);
   }
 
+  /**
+   * Получает имя пользователя из cookies.
+   *
+   * @returns Email пользователя или null
+   */
   getUsername(): string | null {
     return CookieService.get(this.USERNAME_KEY);
   }
 
+  /**
+   * Проверяет, аутентифицирован ли пользователь.
+   *
+   * @returns true если JWT токен существует в cookies
+   */
   isAuthenticated(): boolean {
     return CookieService.exists(this.TOKEN_KEY);
   }

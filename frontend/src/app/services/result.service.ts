@@ -11,14 +11,30 @@ export class ResultService {
 
   constructor(private http: HttpClient) {}
 
+  /**
+   * Проверяет попадание точки в заданные области.
+   *
+   * @param request - Координаты точки (x, y, r)
+   * @returns Observable с результатом проверки
+   */
   checkPoint(request: PointRequest): Observable<Result> {
     return this.http.post<Result>(`${this.API_URL}/check`, request);
   }
 
+  /**
+   * Получает историю всех проверок текущего пользователя.
+   *
+   * @returns Observable со списком всех результатов
+   */
   getUserResults(): Observable<Result[]> {
     return this.http.get<Result[]>(this.API_URL);
   }
 
+  /**
+   * Удаляет все результаты проверок текущего пользователя.
+   *
+   * @returns Observable для завершения операции удаления
+   */
   clearResults(): Observable<any> {
     return this.http.delete(this.API_URL);
   }
