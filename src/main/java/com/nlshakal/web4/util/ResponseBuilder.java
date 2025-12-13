@@ -24,12 +24,6 @@ public class ResponseBuilder {
         return error(Response.Status.UNAUTHORIZED, message);
     }
 
-    /**
-     * Экранирует специальные символы в строке для безопасного вывода в JSON.
-     *
-     * @param text исходная строка
-     * @return экранированная строка
-     */
     private String escapeJson(String text) {
         return text.replace("\"", "\\\"")
                    .replace("\n", "\\n")

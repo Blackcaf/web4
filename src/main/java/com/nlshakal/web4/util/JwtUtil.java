@@ -47,23 +47,10 @@ public class JwtUtil {
                 .compact();
     }
 
-    /**
-     * Извлекает ID пользователя из JWT токена.
-     *
-     * @param token JWT токен
-     * @return ID пользователя
-     */
     public Long getUserIdFromToken(String token) {
         return extractClaims(token).get("userId", Long.class);
     }
 
-    /**
-     * Проверяет валидность JWT токена.
-     * Проверяется подпись и срок действия.
-     *
-     * @param token JWT токен для проверки
-     * @return true если токен валиден, false в противном случае
-     */
     public boolean validateToken(String token) {
         try {
             extractClaims(token);

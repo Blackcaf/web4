@@ -11,10 +11,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * JAX-RS ресурс для мониторинга состояния приложения.
- * Предоставляет информацию о времени работы и статусе сервера.
- */
 @Component
 @Path("/health")
 @Produces(MediaType.APPLICATION_JSON)
@@ -22,12 +18,6 @@ public class HealthResource {
 
     private static final LocalDateTime START_TIME = LocalDateTime.now();
 
-    /**
-     * Проверка здоровья приложения.
-     * GET /api/health
-     *
-     * @return Response с информацией о статусе, времени работы и версии
-     */
     @GET
     public Response healthCheck() {
         Map<String, Object> health = new HashMap<>();

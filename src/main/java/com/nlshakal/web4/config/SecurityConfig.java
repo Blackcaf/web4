@@ -51,12 +51,6 @@ public class SecurityConfig {
         return http.build();
     }
 
-    /**
-     * Создает источник конфигурации CORS.
-     * Разрешает запросы с указанных origins с credentials (cookies).
-     *
-     * @return настроенный CorsConfigurationSource
-     */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();

@@ -58,14 +58,6 @@ public class YandexOAuthProvider implements OAuthProvider {
         return root.path("access_token").asText();
     }
 
-    /**
-     * Получает email пользователя из Yandex Login API.
-     * Использует Bearer Token авторизацию (формат "OAuth <token>").
-     *
-     * @param accessToken access token для авторизации запроса
-     * @return default email пользователя
-     * @throws Exception при ошибке парсинга JSON
-     */
     private String fetchUserEmail(String accessToken) throws Exception {
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization", "OAuth " + accessToken);

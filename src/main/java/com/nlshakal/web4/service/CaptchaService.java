@@ -19,13 +19,6 @@ public class CaptchaService {
     private final RestTemplate restTemplate = new RestTemplate();
     private final ObjectMapper objectMapper = new ObjectMapper();
 
-    /**
-     * Проверяет валидность CAPTCHA токена через Google reCAPTCHA API.
-     * Если CAPTCHA отключена в конфигурации, всегда возвращает true.
-     *
-     * @param token токен CAPTCHA, полученный от клиента
-     * @return true если CAPTCHA пройдена успешно или отключена, false в противном случае
-     */
     public boolean verifyCaptcha(String token) {
         if (!captchaEnabled || captchaSecret == null || captchaSecret.isEmpty()) {
             return true;

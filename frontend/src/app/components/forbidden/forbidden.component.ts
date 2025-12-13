@@ -16,9 +16,6 @@ import { Router } from '@angular/router';
 export class ForbiddenComponent {
     constructor(private router: Router) {}
 
-    /**
-     * Перенаправляет пользователя на страницу логина.
-     */
     goHome() {
         this.router.navigate(['/login']);
     }

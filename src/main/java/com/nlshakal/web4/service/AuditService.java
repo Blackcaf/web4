@@ -20,38 +20,16 @@ public class AuditService {
             : userAgent;
     }
 
-    /**
-     * Логирует неудачную попытку входа.
-     *
-     * @param username email пользователя
-     * @param ipAddress IP адрес клиента
-     * @param reason причина отказа
-     * @param userAgent User-Agent браузера
-     */
     public void logFailedLogin(String username, String ipAddress, String reason, String userAgent) {
         logger.warn("[LOGIN_FAILED] username={}, ip={}, reason={}, userAgent={}",
                     username, ipAddress, reason, sanitizeUserAgent(userAgent));
     }
 
-    /**
-     * Логирует подозрительную активность для анализа безопасности.
-     *
-     * @param username email пользователя
-     * @param ipAddress IP адрес клиента
-     * @param activity описание подозрительной активности
-     */
     public void logSuspiciousActivity(String username, String ipAddress, String activity) {
         logger.error("[SUSPICIOUS_ACTIVITY] username={}, ip={}, activity={}",
                      username, ipAddress, activity);
     }
 
-    /**
-     * Логирует регистрацию нового пользователя.
-     *
-     * @param username email пользователя
-     * @param ipAddress IP адрес клиента
-     * @param method метод регистрации (local, google, yandex)
-     */
     public void logRegistration(String username, String ipAddress, String method) {
         logger.info("[REGISTRATION] username={}, ip={}, authProvider={}",
                     username, ipAddress, method);

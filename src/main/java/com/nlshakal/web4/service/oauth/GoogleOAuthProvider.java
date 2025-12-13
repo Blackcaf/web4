@@ -59,13 +59,6 @@ public class GoogleOAuthProvider implements OAuthProvider {
         return root.path("access_token").asText();
     }
 
-    /**
-     * Получает email пользователя из Google UserInfo API.
-     *
-     * @param accessToken access token для авторизации запроса
-     * @return email пользователя
-     * @throws Exception при ошибке парсинга JSON
-     */
     private String fetchUserEmail(String accessToken) throws Exception {
         String url = "https://www.googleapis.com/oauth2/v2/userinfo?access_token=" + accessToken;
         String userInfoResponse = restTemplate.getForObject(url, String.class);

@@ -32,12 +32,6 @@ public class TokenExtractor {
         throw new RuntimeException("Missing or invalid authentication token");
     }
 
-    /**
-     * Проверяет валидность JWT токена.
-     *
-     * @param token JWT токен для проверки
-     * @throws RuntimeException если токен невалиден
-     */
     private void validateToken(String token) {
         if (!jwtUtil.validateToken(token)) {
             throw new RuntimeException("Invalid token");

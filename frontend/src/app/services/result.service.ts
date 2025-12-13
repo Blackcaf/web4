@@ -13,9 +13,6 @@ export class ResultService {
 
   /**
    * Проверяет попадание точки в заданные области.
-   *
-   * @param request - Координаты точки (x, y, r)
-   * @returns Observable с результатом проверки
    */
   checkPoint(request: PointRequest): Observable<Result> {
     return this.http.post<Result>(`${this.API_URL}/check`, request);
@@ -23,8 +20,6 @@ export class ResultService {
 
   /**
    * Получает историю всех проверок текущего пользователя.
-   *
-   * @returns Observable со списком всех результатов
    */
   getUserResults(): Observable<Result[]> {
     return this.http.get<Result[]>(this.API_URL);
@@ -32,8 +27,6 @@ export class ResultService {
 
   /**
    * Удаляет все результаты проверок текущего пользователя.
-   *
-   * @returns Observable для завершения операции удаления
    */
   clearResults(): Observable<any> {
     return this.http.delete(this.API_URL);

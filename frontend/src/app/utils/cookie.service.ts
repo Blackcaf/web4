@@ -8,9 +8,6 @@ export class CookieService {
 
   /**
    * Получает значение cookie по имени.
-   *
-   * @param name - Имя cookie
-   * @returns Значение cookie или null если не найдено
    */
   static get(name: string): string | null {
     const nameEQ = name + "=";
@@ -25,8 +22,6 @@ export class CookieService {
 
   /**
    * Удаляет cookie по имени.
-   *
-   * @param name - Имя cookie для удаления
    */
   static delete(name: string): void {
     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
@@ -34,9 +29,6 @@ export class CookieService {
 
   /**
    * Проверяет существование cookie.
-   *
-   * @param name - Имя cookie
-   * @returns true если cookie существует
    */
   static exists(name: string): boolean {
     return this.get(name) !== null;

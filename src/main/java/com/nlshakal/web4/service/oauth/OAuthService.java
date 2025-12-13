@@ -17,15 +17,6 @@ public class OAuthService {
         }
     }
 
-    /**
-     * Выполняет OAuth аутентификацию и получает email пользователя.
-     * Автоматически выбирает нужный провайдер по имени.
-     *
-     * @param code authorization code от OAuth провайдера
-     * @param providerName название провайдера ("google" или "yandex")
-     * @return email пользователя
-     * @throws RuntimeException если провайдер не найден
-     */
     public String authenticateAndGetEmail(String code, String providerName) {
         OAuthProvider provider = providers.get(providerName.toLowerCase());
         if (provider == null) {

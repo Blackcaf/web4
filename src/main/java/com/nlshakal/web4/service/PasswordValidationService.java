@@ -17,12 +17,6 @@ public class PasswordValidationService {
         return PASSWORD_PATTERN.matcher(password).matches();
     }
 
-    /**
-     * Возвращает детальное сообщение о причине невалидности пароля.
-     *
-     * @param password пароль для анализа
-     * @return сообщение об ошибке или "OK" если пароль валиден
-     */
     public String getValidationMessage(String password) {
         if (password == null || password.isEmpty()) {
             return "Пароль не может быть пустым";
@@ -36,25 +30,6 @@ public class PasswordValidationService {
         if (!password.matches(".*\\d.*")) {
             return "Пароль должен содержать хотя бы одну цифру";
         }
-        if (isCommonPassword(password)) {
-            return "Этот пароль слишком распространен. Выберите более уникальный";
-        }
         return "OK";
-    }
-
-    private boolean isCommonPassword(String password) {
-        String lowerPassword = password.toLowerCase();
-        String[] commonPasswords = {
-                "password", "123456", "12345678", "qwerty", "abc123",
-                "password123", "111111", "123123", "admin", "letmein",
-                "welcome", "monkey", "dragon", "master", "sunshine",
-                "princess", "football", "iloveyou", "admin123", "root"
-        };
-        for (String common : commonPasswords) {
-            if (lowerPassword.contains(common)) {
-                return true;
-            }
-        }
-        return false;
     }
 }

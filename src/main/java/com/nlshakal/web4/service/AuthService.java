@@ -117,15 +117,6 @@ public class AuthService {
                 .build();
     }
 
-    /**
-     * Выполняет аутентификацию через OAuth провайдера (Google, Yandex).
-     * Создает нового пользователя при первом входе через соцсеть.
-     *
-     * @param request данные OAuth (код авторизации и провайдер)
-     * @param ipAddress IP адрес клиента
-     * @param userAgent User-Agent браузера
-     * @return объект AuthResponse с JWT токеном
-     */
     public AuthResponse socialLogin(SocialLoginRequest request, String ipAddress, String userAgent) {
         String provider = request.getProvider();
         String email = oauthService.authenticateAndGetEmail(request.getCode(), provider);

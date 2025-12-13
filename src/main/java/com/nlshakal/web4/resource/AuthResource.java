@@ -102,13 +102,6 @@ public class AuthResource {
         }
     }
 
-    /**
-     * Вход через социальные сети (Google, Yandex).
-     * POST /api/auth/social
-     *
-     * @param request OAuth данные (code, provider)
-     * @return Response с JWT токеном
-     */
     @POST
     @Path("/social")
     public Response socialLogin(SocialLoginRequest request) {
@@ -146,13 +139,6 @@ public class AuthResource {
         }
     }
 
-    /**
-     * Выход из системы.
-     * POST /api/auth/logout
-     * Удаляет JWT токен и username из cookies.
-     *
-     * @return Response со статусом 200
-     */
     @POST
     @Path("/logout")
     public Response logout() {

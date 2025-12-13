@@ -56,13 +56,6 @@ public class ResultResource {
         }
     }
 
-    /**
-     * Удаляет все результаты проверок текущего пользователя.
-     * DELETE /api/results
-     *
-     * @param headers HTTP заголовки с JWT токеном
-     * @return Response с подтверждением успешного удаления
-     */
     @DELETE
     public Response clearResults(@Context HttpHeaders headers) {
         try {

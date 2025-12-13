@@ -1,9 +1,5 @@
 package com.nlshakal.web4.constants;
 
-/**
- * Константы для валидации координат точек и радиусов области проверки.
- * Содержит сообщения об ошибках валидации для координат X, Y и радиуса R.
- */
 public final class ValidationConstants {
 
     private ValidationConstants() {
