@@ -118,8 +118,21 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         window.history.replaceState({}, document.title, window.location.pathname);
         this.authService.socialLogin(code, provider).subscribe({
-            next: () => { this.isLoading = false; this.router.navigate(['/main']); },
-            error: (err: any) => { this.isLoading = false; this.errorMessage = 'Auth Error'; this.triggerErrorAnimation(); }
+            next: (response) => {
+                console.log('[OAuth] Success:', response);
+                this.isLoading = false;
+                this.router.navigate(['/main']);
+            },
+            error: (err: any) => {
+                console.error('[OAuth] Error:', err);
+                console.error('[OAuth] Status:', err.status);
+                console.error('[OAuth] Message:', err.message);
+                console.error('[OAuth] Error details:', err.error);
+
+                this.isLoading = false;
+                this.errorMessage = err.status === 403 ? 'Access Forbidden - Check OAuth settings' : 'Auth Error';
+                this.triggerErrorAnimation();
+            }
         });
     }
 

@@ -13,6 +13,7 @@ export class AuthService {
   private readonly USERNAME_KEY = 'username';
 
   private currentUserSubject = new BehaviorSubject<string | null>(this.getUsername());
+  private justAuthenticatedFlag = false;
 
   constructor(private http: HttpClient) {}
 
@@ -29,6 +30,7 @@ export class AuthService {
   logout(): Observable<void> {
     return this.http.post<void>(`${this.API_URL}/logout`, {}, { withCredentials: true })
       .pipe(tap(() => {
+        this.justAuthenticatedFlag = false;
         CookieService.delete(this.USERNAME_KEY);
         this.currentUserSubject.next(null);
       }));
@@ -44,12 +46,20 @@ export class AuthService {
   }
 
   isAuthenticated(): boolean {
+    if (this.justAuthenticatedFlag) {
+      return true;
+    }
     return CookieService.exists(this.TOKEN_KEY);
   }
 
   private handleAuth(response: AuthResponse): void {
     if (response.username) {
       this.currentUserSubject.next(response.username);
+      this.justAuthenticatedFlag = true;
+
+      setTimeout(() => {
+        this.justAuthenticatedFlag = false;
+      }, 1000);
     } else {
       this.currentUserSubject.next(null);
     }

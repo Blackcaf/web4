@@ -13,10 +13,10 @@ import java.util.Base64;
 @Component
 public class YandexOAuthProvider implements OAuthProvider {
 
-    @Value("${YANDEX_CLIENT_ID:}")
+    @Value("${oauth.yandex.client-id:}")
     private String clientId;
 
-    @Value("${YANDEX_CLIENT_SECRET:}")
+    @Value("${oauth.yandex.client-secret:}")
     private String clientSecret;
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -25,9 +25,19 @@ public class YandexOAuthProvider implements OAuthProvider {
     @Override
     public String getEmail(String code) {
         try {
+            System.out.println("[Yandex OAuth] Starting authentication with code: " + code.substring(0, Math.min(10, code.length())) + "...");
+            System.out.println("[Yandex OAuth] Client ID: " + (clientId != null ? clientId.substring(0, 10) + "..." : "NULL"));
+
             String accessToken = exchangeCodeForToken(code);
-            return fetchUserEmail(accessToken);
+            System.out.println("[Yandex OAuth] Access token obtained successfully");
+
+            String email = fetchUserEmail(accessToken);
+            System.out.println("[Yandex OAuth] User email: " + email);
+
+            return email;
         } catch (Exception e) {
+            System.err.println("[Yandex OAuth] Error: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Ошибка авторизации Yandex: " + e.getMessage());
         }
     }

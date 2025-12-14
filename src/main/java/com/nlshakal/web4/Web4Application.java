@@ -34,12 +34,31 @@ public class Web4Application {
                 if ("CAPTCHA_SITE_KEY".equals(key)) {
                     System.setProperty("captcha.site-key", value);
                 }
+                if ("GOOGLE_CLIENT_ID".equals(key)) {
+                    System.setProperty("oauth.google.client-id", value);
+                }
+                if ("GOOGLE_CLIENT_SECRET".equals(key)) {
+                    System.setProperty("oauth.google.client-secret", value);
+                }
+                if ("YANDEX_CLIENT_ID".equals(key)) {
+                    System.setProperty("oauth.yandex.client-id", value);
+                }
+                if ("YANDEX_CLIENT_SECRET".equals(key)) {
+                    System.setProperty("oauth.yandex.client-secret", value);
+                }
+                if ("REDIRECT_URI".equals(key)) {
+                    System.setProperty("oauth.redirect-uri", value);
+                }
             });
 
             System.out.println("Environment variables loaded from .env file");
             System.out.println("- jwt.secret: " + (System.getProperty("jwt.secret") != null && System.getProperty("jwt.secret").length() > 50 ? "✓" : "✗"));
             System.out.println("- captcha.secret: " + (System.getProperty("captcha.secret") != null ? "✓" : "✗"));
             System.out.println("- DB_URL: " + (System.getProperty("DB_URL") != null ? "✓" : "✗"));
+            System.out.println("- oauth.google.client-id: " + (System.getProperty("oauth.google.client-id") != null ? "✓" : "✗"));
+            System.out.println("- oauth.google.client-secret: " + (System.getProperty("oauth.google.client-secret") != null ? "✓" : "✗"));
+            System.out.println("- oauth.yandex.client-id: " + (System.getProperty("oauth.yandex.client-id") != null ? "✓" : "✗"));
+            System.out.println("- oauth.yandex.client-secret: " + (System.getProperty("oauth.yandex.client-secret") != null ? "✓" : "✗"));
 
         } catch (Exception e) {
             System.err.println("Warning: .env file not found, using system environment variables");

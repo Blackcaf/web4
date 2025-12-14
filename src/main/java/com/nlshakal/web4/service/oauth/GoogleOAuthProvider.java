@@ -12,13 +12,13 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GoogleOAuthProvider implements OAuthProvider {
 
-    @Value("${GOOGLE_CLIENT_ID:}")
+    @Value("${oauth.google.client-id:}")
     private String clientId;
 
-    @Value("${GOOGLE_CLIENT_SECRET:}")
+    @Value("${oauth.google.client-secret:}")
     private String clientSecret;
 
-    @Value("${REDIRECT_URI:http://localhost:4200/login}")
+    @Value("${oauth.redirect-uri:http://localhost:4200/login}")
     private String redirectUri;
 
     private final RestTemplate restTemplate = new RestTemplate();
@@ -27,9 +27,20 @@ public class GoogleOAuthProvider implements OAuthProvider {
     @Override
     public String getEmail(String code) {
         try {
+            System.out.println("[Google OAuth] Starting authentication with code: " + code.substring(0, Math.min(10, code.length())) + "...");
+            System.out.println("[Google OAuth] Client ID: " + (clientId != null ? clientId.substring(0, 10) + "..." : "NULL"));
+            System.out.println("[Google OAuth] Redirect URI: " + redirectUri);
+
             String accessToken = exchangeCodeForToken(code);
-            return fetchUserEmail(accessToken);
+            System.out.println("[Google OAuth] Access token obtained successfully");
+
+            String email = fetchUserEmail(accessToken);
+            System.out.println("[Google OAuth] User email: " + email);
+
+            return email;
         } catch (Exception e) {
+            System.err.println("[Google OAuth] Error: " + e.getMessage());
+            e.printStackTrace();
             throw new RuntimeException("Ошибка авторизации Google: " + e.getMessage());
         }
     }

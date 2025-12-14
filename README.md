@@ -801,6 +801,48 @@ ng build --configuration production
 
 ---
 
+## Troubleshooting OAuth
+
+### Ошибка 403 при входе через Google/Yandex
+
+**Причины:**
+1. **Redirect URI не совпадает** - проверьте, что в консолях Google/Yandex указан `http://localhost:4200/login`
+2. **Неверные credentials** - обновите Client ID и Client Secret в `.env`
+3. **Заблокированное приложение** - создайте новое OAuth приложение
+4. **Истёк authorization code** - попробуйте войти заново
+
+**Диагностика:**
+
+1. Проверьте конфигурацию:
+```bash
+# Откройте в браузере:
+http://localhost:8080/web4/api/health/oauth
+```
+
+2. Проверьте логи бэкенда при попытке входа:
+```
+[Google OAuth] Starting authentication...
+[Google OAuth] Error: 401 Unauthorized  # ← Проблема!
+```
+
+3. Проверьте консоль браузера (F12):
+```
+[OAuth] Error: {status: 403, ...}
+```
+
+**Решение:**
+
+1. Убедитесь, что в `.env` правильные credentials
+2. Перезапустите бэкенд: `gradlew bootRun`
+3. Очистите cookies браузера
+4. Проверьте Redirect URI в консолях разработчика:
+   - Google: https://console.cloud.google.com/apis/credentials
+   - Yandex: https://oauth.yandex.ru/
+
+5. Если не помогло - пересоздайте OAuth приложения
+
+---
+
 ## Лицензия
 
 Учебный проект для университета ИТМО. Все права защищены.
