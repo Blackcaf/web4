@@ -11,23 +11,14 @@ export class ResultService {
 
   constructor(private http: HttpClient) {}
 
-  /**
-   * Проверяет попадание точки в заданные области.
-   */
   checkPoint(request: PointRequest): Observable<Result> {
     return this.http.post<Result>(`${this.API_URL}/check`, request);
   }
 
-  /**
-   * Получает историю всех проверок текущего пользователя.
-   */
   getUserResults(): Observable<Result[]> {
     return this.http.get<Result[]>(this.API_URL);
   }
 
-  /**
-   * Удаляет все результаты проверок текущего пользователя.
-   */
   clearResults(): Observable<any> {
     return this.http.delete(this.API_URL);
   }

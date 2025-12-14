@@ -39,16 +39,10 @@ export class AuthService {
           .pipe(tap(response => this.handleAuth(response)));
   }
 
-  /**
-   * Получает имя пользователя из cookies.
-   */
   getUsername(): string | null {
     return CookieService.get(this.USERNAME_KEY);
   }
 
-  /**
-   * Проверяет, аутентифицирован ли пользователь.
-   */
   isAuthenticated(): boolean {
     return CookieService.exists(this.TOKEN_KEY);
   }

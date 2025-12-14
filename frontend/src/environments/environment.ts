@@ -1,6 +1,3 @@
-/**
- * Конфигурация окружения для env.
- */
 export const environment = {
     production: true,
     apiUrl: 'http://localhost:8080/web4/api',

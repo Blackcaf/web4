@@ -6,9 +6,6 @@ export class CookieService {
     document.cookie = `${name}=${value};${expires};path=/;SameSite=Strict`;
   }
 
-  /**
-   * Получает значение cookie по имени.
-   */
   static get(name: string): string | null {
     const nameEQ = name + "=";
     const ca = document.cookie.split(';');
@@ -20,16 +17,10 @@ export class CookieService {
     return null;
   }
 
-  /**
-   * Удаляет cookie по имени.
-   */
   static delete(name: string): void {
     document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 UTC;path=/;`;
   }
 
-  /**
-   * Проверяет существование cookie.
-   */
   static exists(name: string): boolean {
     return this.get(name) !== null;
   }

@@ -64,10 +64,6 @@ export class MonsterAnimationManager {
         return `translate(${moveX}px, ${smoothY}px) scale(${scaleX}, 1)`;
     }
 
-    /**
-     * Запускает анимацию ошибки (испуганное выражение лица).
-     * Автоматически возвращается в idle состояние через 1.5 секунды.
-     */
     triggerErrorAnimation(): void {
         this.state = 'error';
         setTimeout(() => this.state = 'idle', 1500);

@@ -43,12 +43,6 @@ export class CaptchaManager {
         }
     }
 
-    /**
-     * Рендерит CAPTCHA виджет в DOM.
-     * Автоматически повторяет попытки если grecaptcha еще не загружен.
-     *
-     * @param retry - Счетчик попыток для рекурсивного вызова
-     */
     render(retry: number = 0): void {
         const maxRetries = 10;
         const grecaptcha = (window as any).grecaptcha;

@@ -4,9 +4,6 @@ export interface PasswordStrengthResult {
     color: string;
 }
 
-/**
- * Индикатор силы пароля на основе длины.
- */
 export class PasswordStrengthIndicator {
     calculateVisualStrength(password: string, isRegisterMode: boolean): PasswordStrengthResult {
         if (!isRegisterMode || !password) {

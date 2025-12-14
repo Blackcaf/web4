@@ -4,9 +4,6 @@ import { MainComponent } from './components/main/main.component';
 import { ForbiddenComponent } from './components/forbidden/forbidden.component';
 import { AuthGuard } from './guards/auth.guard';
 
-/**
- * Конфигурация маршрутов приложения.
- */
 export const routes: Routes = [
     { path: '', redirectTo: '/login', pathMatch: 'full' },
     { path: 'login', component: LoginComponent },
