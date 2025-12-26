@@ -8,7 +8,7 @@
 
 ## Описание проекта
 
-Веб-приложение для проверки попадания точки в заданную область на координатной плоскости. Реализовано с использованием современного стека технологий и множества механизмов защиты.
+Веб-приложение для проверки попадания точки в заданную область на координатной плоскости. Реизвлено с использованием современного стека технологий и множества механизмов защиты.
 
 ### Проверяемая область (Вариант 4758):
 - **Прямоугольник** - 2 квадрант: `x ∈ [-R, 0]`, `y ∈ [0, R/2]`
@@ -24,6 +24,9 @@
 - **Spring Boot 3.2.0**
 - **JAX-RS (Jersey)** - RESTful API
 - **Spring Data JPA** - работа с базой данных
+- **Spring WebFlux** - реактивный стек
+- **Spring Data R2DBC** - реактивный доступ к БД
+- **Redis** - кэширование результатов
 - **Spring Security** - безопасность
 - **Oracle Database** - хранение данных
 - **JWT (io.jsonwebtoken)** - аутентификация
@@ -60,11 +63,15 @@ src/main/java/com/nlshakal/web4/
 │
 ├── resource/                               # JAX-RS Resources (Controllers)
 │   ├── AuthResource.java                  # /api/auth/* - аутентификация
-│   └── ResultResource.java                # /api/results/* - проверка точек
+│   ├── ResultResource.java                # /api/results/* - проверка точек (Traditional)
+│   ├── CachedResultResource.java          # /api/cached/results/* - проверка с кэшем
+│   └── ReactiveResultController.java      # /api/reactive/results/* - реактивная проверка
 │
 ├── service/                                # Бизнес-логика
 │   ├── AuthService.java                   # Регистрация, вход
 │   ├── ResultService.java                 # Проверка точек, история
+│   ├── ReactiveResultService.java         # Реактивная бизнес-логика
+│   ├── CacheService.java                  # Работа с Redis
 │   ├── PasswordHashingService.java        # BCrypt хеширование
 │   ├── PasswordValidationService.java     # Валидация сложности паролей
 │   ├── LoginAttemptService.java           # Отслеживание попыток входа
@@ -79,11 +86,13 @@ src/main/java/com/nlshakal/web4/
 │
 ├── repository/                             # Data Access Layer
 │   ├── UserRepository.java                # CRUD для User
-│   └── ResultRepository.java              # CRUD для Result
+│   ├── ResultRepository.java              # CRUD для Result
+│   └── ReactiveResultRepository.java      # R2DBC репозиторий
 │
 ├── entity/                                 # JPA Entities
 │   ├── User.java                          # Пользователь
-│   └── Result.java                        # Результат проверки
+│   ├── Result.java                        # Результат проверки
+│   └── ReactiveResult.java                # Реактивная сущность
 │
 ├── dto/                                    # Data Transfer Objects
 │   ├── LoginRequest.java                  # Запрос входа/регистрации
@@ -598,6 +607,32 @@ public void logSuspiciousActivity(String username, String ipAddress, String deta
 
 ---
 
+### 13. **Нагрузочное тестирование**
+
+Для сравнения производительности различных подходов (Traditional, Cached, Reactive) реализован инструмент нагрузочного тестирования на Go.
+
+**Расположение:** `loadgen/`
+
+**Запуск тестов:**
+```powershell
+cd loadgen
+# Тест на запись (POST)
+.\run-tests.ps1 -Token <JWT_TOKEN>
+
+# Тест на чтение (GET)
+.\run-read-tests.ps1 -Token <JWT_TOKEN>
+```
+
+**Сравниваемые подходы:**
+1.  **Traditional** (`/api/v1/results`) - Классический блокирующий подход (JPA + JDBC).
+2.  **Cached** (`/api/v1/cached/results`) - Традиционный подход с кэшированием в Redis.
+3.  **Reactive** (`/api/reactive/results`) - Неблокирующий подход (WebFlux + R2DBC).
+
+**Результаты:**
+Результаты тестов сохраняются в папку `loadgen/results/`.
+
+---
+
 ## База данных
 
 ### Схема (Oracle Database)
@@ -840,20 +875,4 @@ http://localhost:8080/web4/api/health/oauth
    - Yandex: https://oauth.yandex.ru/
 
 5. Если не помогло - пересоздайте OAuth приложения
-
----
-
-## Лицензия
-
-Учебный проект для университета ИТМО. Все права защищены.
-
----
-
-## Автор
-
-**Мантуш Даниил Валерьевич**  
-Группа P3219  
-Университет ИТМО  
-Факультет Программной Инженерии и Компьютерной Техники
-
 
