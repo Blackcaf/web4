@@ -29,6 +29,7 @@ type result struct {
 
 func main() {
 	target := flag.String("url", "http://localhost:8080/web4/api/reactive/results/check", "target URL")
+	method := flag.String("method", "POST", "HTTP method (POST or GET)")
 	token := flag.String("token", "", "Bearer token (optional)")
 	concurrency := flag.Int("c", 20, "concurrent workers")
 	total := flag.Int("n", 200, "total requests")
@@ -92,13 +93,23 @@ func main() {
 					}
 				}
 
-				req, err := http.NewRequest(http.MethodPost, *target, bytes.NewReader(body))
+				var req *http.Request
+				var err error
+
+				if *method == "GET" {
+					req, err = http.NewRequest(http.MethodGet, *target, nil)
+				} else {
+					req, err = http.NewRequest(http.MethodPost, *target, bytes.NewReader(body))
+				}
+
 				if err != nil {
 					results <- result{hasError: true, errorMsg: err.Error()}
 					continue
 				}
 
-				req.Header.Set("Content-Type", "application/json")
+				if *method == "POST" {
+					req.Header.Set("Content-Type", "application/json")
+				}
 				if *token != "" {
 					req.Header.Set("Authorization", "Bearer "+*token)
 				}

@@ -45,7 +45,7 @@ public class CachedResultResource {
     public Response getUserResults(@Context HttpHeaders headers) {
         try {
             Long userId = tokenExtractor.extractUserId(headers);
-            List<ResultResponse> results = resultService.getUserResults(userId);
+            List<ResultResponse> results = resultService.getUserResultsCached(userId);
             return Response.ok(results)
                     .type(MediaType.APPLICATION_JSON)
                     .build();

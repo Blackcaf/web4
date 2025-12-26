@@ -59,7 +59,16 @@ public class ResultService {
     }
 
     public List<ResultResponse> getUserResults(Long userId) {
-        logger.debug("getUserResults called for userId={}", userId);
+        logger.debug("getUserResults (Traditional) called for userId={}", userId);
+        User user = new User();
+        user.setId(userId);
+        return resultRepository.findTop100ByUserOrderByTimestampDesc(user).stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+    }
+
+    public List<ResultResponse> getUserResultsCached(Long userId) {
+        logger.debug("getUserResultsCached called for userId={}", userId);
 
         Optional<List<ResultResponse>> cached = cacheService.getUserResults(userId, ResultResponse.class);
         if (cached.isPresent()) {
@@ -67,12 +76,7 @@ public class ResultService {
             return cached.get();
         }
 
-        User user = new User();
-        user.setId(userId);
-        List<Result> results = resultRepository.findTop100ByUserOrderByTimestampDesc(user);
-        List<ResultResponse> responseList = results.stream()
-                .map(this::toResponse)
-                .collect(Collectors.toList());
+        List<ResultResponse> responseList = getUserResults(userId);
 
         cacheService.cacheUserResults(userId, responseList, CACHE_TTL);
         logger.info("Loaded and cached results from DB for userId={}, count={}", userId, responseList.size());

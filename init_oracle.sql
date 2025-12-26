@@ -46,8 +46,7 @@ CREATE TABLE results (
 );
 
 -- Создание индексов для оптимизации запросов
-CREATE INDEX idx_results_user_id ON results(user_id);
-CREATE INDEX idx_results_timestamp ON results(timestamp DESC);
+CREATE INDEX idx_results_user_timestamp ON results(user_id, timestamp DESC);
 CREATE INDEX idx_users_username ON users(username);
 
 -- Примеры тестовых данных (опционально)

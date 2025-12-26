@@ -49,7 +49,7 @@ export class AuthService {
     if (this.justAuthenticatedFlag) {
       return true;
     }
-    return CookieService.exists(this.TOKEN_KEY);
+    return CookieService.exists(this.USERNAME_KEY);
   }
 
   private handleAuth(response: AuthResponse): void {
