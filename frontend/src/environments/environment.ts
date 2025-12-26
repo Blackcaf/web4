@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    apiUrl: 'http://localhost:8080/web4/api',
+    apiUrl: 'http://localhost:8080/web4/api/v1',
     redirectUri: 'http://localhost:4200/login',
     oauth: {
         google: {

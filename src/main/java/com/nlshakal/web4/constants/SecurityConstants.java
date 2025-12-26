@@ -7,7 +7,7 @@ public final class SecurityConstants {
     }
 
     public static final int MAX_LOGIN_ATTEMPTS = 5;
-    public static final int RATE_LIMIT_MAX_REQUESTS = 10;
+    public static final int RATE_LIMIT_MAX_REQUESTS = 1000000;
     public static final int SUSPICIOUS_ACTIVITY_THRESHOLD = 10;
 }
 

@@ -26,13 +26,6 @@ public class RateLimitService {
             return false;
         }
 
-        if (tracker.getRequestsLastHour() > 50) {
-            if (tracker.getTotalRequests() > 100) {
-                blacklistIP(ipAddress, 60);
-            }
-            return false;
-        }
-
         return true;
     }
 
@@ -92,4 +85,3 @@ public class RateLimitService {
         }
     }
 }
-

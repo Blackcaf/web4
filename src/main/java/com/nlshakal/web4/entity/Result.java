@@ -30,12 +30,15 @@ public class Result {
     @Column(nullable = false)
     private LocalDateTime timestamp;
 
-    @Column(nullable = false)
+    @Column(name = "execution_time", nullable = false)
     private long executionTime;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name = "user_id", insertable = false, updatable = false)
+    private Long userId;
 
     public Result(double x, double y, double r, boolean hit, LocalDateTime timestamp, long executionTime, User user) {
         this.x = x;
@@ -45,7 +48,9 @@ public class Result {
         this.timestamp = timestamp;
         this.executionTime = executionTime;
         this.user = user;
+        if (user != null) {
+            this.userId = user.getId();
+        }
     }
 
 }
-

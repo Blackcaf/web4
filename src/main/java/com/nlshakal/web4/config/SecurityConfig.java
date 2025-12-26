@@ -43,7 +43,9 @@ public class SecurityConfig {
                         ))
                 )
                 .authorizeHttpRequests(auth -> auth
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/auth/**").permitAll()
+                        .requestMatchers("/api/reactive/**").permitAll()
                         .requestMatchers("/**").permitAll()
                         .anyRequest().authenticated()
                 );
@@ -65,4 +67,3 @@ public class SecurityConfig {
         return source;
     }
 }
-

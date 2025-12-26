@@ -7,7 +7,7 @@ import { PointRequest, Result } from '../models/result.model';
   providedIn: 'root'
 })
 export class ResultService {
-  private readonly API_URL = 'http://localhost:8080/web4/api/results';
+  private readonly API_URL = 'http://localhost:8080/web4/api/v1/results';
 
   constructor(private http: HttpClient) {}
 

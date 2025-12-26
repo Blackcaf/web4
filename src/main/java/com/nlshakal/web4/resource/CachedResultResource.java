@@ -14,11 +14,11 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-@Path("/results")
+@Path("/cached/results")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 @RequiredArgsConstructor
-public class ResultResource {
+public class CachedResultResource {
 
     private final ResultService resultService;
     private final TokenExtractor tokenExtractor;

@@ -4,6 +4,7 @@ import jakarta.ws.rs.core.Cookie;
 import jakarta.ws.rs.core.HttpHeaders;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Component
 @RequiredArgsConstructor
@@ -11,9 +12,14 @@ public class TokenExtractor {
 
     private final JwtUtil jwtUtil;
 
-
     public Long extractUserId(HttpHeaders headers) {
         String token = extractToken(headers);
+        validateToken(token);
+        return jwtUtil.getUserIdFromToken(token);
+    }
+
+    public Long extractUserId(HttpServletRequest request) {
+        String token = extractToken(request);
         validateToken(token);
         return jwtUtil.getUserIdFromToken(token);
     }
@@ -37,5 +43,27 @@ public class TokenExtractor {
             throw new RuntimeException("Invalid token");
         }
     }
-}
 
+    private String extractToken(HttpServletRequest request) {
+        jakarta.servlet.http.Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (jakarta.servlet.http.Cookie cookie : cookies) {
+                if ("auth_token".equals(cookie.getName())) {
+                    String value = cookie.getValue();
+                    if (value != null && !value.isEmpty()) {
+                        return value;
+                    }
+                }
+            }
+        }
+
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+
+        throw new RuntimeException("Missing or invalid authentication token");
+    }
+
+
+}

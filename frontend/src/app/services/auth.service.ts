@@ -8,7 +8,7 @@ import { CookieService } from '../utils/cookie.service';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly API_URL = 'http://localhost:8080/web4/api/auth';
+  private readonly API_URL = 'http://localhost:8080/web4/api/v1/auth';
   private readonly TOKEN_KEY = 'auth_token';
   private readonly USERNAME_KEY = 'username';
 

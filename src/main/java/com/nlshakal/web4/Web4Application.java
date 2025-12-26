@@ -6,7 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
-@SpringBootApplication
+
+@SpringBootApplication(exclude = {
+        org.springframework.boot.autoconfigure.r2dbc.R2dbcAutoConfiguration.class,
+        org.springframework.boot.autoconfigure.data.r2dbc.R2dbcDataAutoConfiguration.class
+})
 @EnableConfigurationProperties(JwtProperties.class)
 public class Web4Application {
 
@@ -17,48 +21,10 @@ public class Web4Application {
                     .load();
 
             dotenv.entries().forEach(entry -> {
-                String key = entry.getKey();
-                String value = entry.getValue();
-
-                System.setProperty(key, value);
-
-                if ("JWT_SECRET".equals(key)) {
-                    System.setProperty("jwt.secret", value);
-                }
-                if ("JWT_EXPIRATION".equals(key)) {
-                    System.setProperty("jwt.expiration", value);
-                }
-                if ("CAPTCHA_SECRET".equals(key)) {
-                    System.setProperty("captcha.secret", value);
-                }
-                if ("CAPTCHA_SITE_KEY".equals(key)) {
-                    System.setProperty("captcha.site-key", value);
-                }
-                if ("GOOGLE_CLIENT_ID".equals(key)) {
-                    System.setProperty("oauth.google.client-id", value);
-                }
-                if ("GOOGLE_CLIENT_SECRET".equals(key)) {
-                    System.setProperty("oauth.google.client-secret", value);
-                }
-                if ("YANDEX_CLIENT_ID".equals(key)) {
-                    System.setProperty("oauth.yandex.client-id", value);
-                }
-                if ("YANDEX_CLIENT_SECRET".equals(key)) {
-                    System.setProperty("oauth.yandex.client-secret", value);
-                }
-                if ("REDIRECT_URI".equals(key)) {
-                    System.setProperty("oauth.redirect-uri", value);
-                }
+                System.setProperty(entry.getKey(), entry.getValue());
             });
 
             System.out.println("Environment variables loaded from .env file");
-            System.out.println("- jwt.secret: " + (System.getProperty("jwt.secret") != null && System.getProperty("jwt.secret").length() > 50 ? "✓" : "✗"));
-            System.out.println("- captcha.secret: " + (System.getProperty("captcha.secret") != null ? "✓" : "✗"));
-            System.out.println("- DB_URL: " + (System.getProperty("DB_URL") != null ? "✓" : "✗"));
-            System.out.println("- oauth.google.client-id: " + (System.getProperty("oauth.google.client-id") != null ? "✓" : "✗"));
-            System.out.println("- oauth.google.client-secret: " + (System.getProperty("oauth.google.client-secret") != null ? "✓" : "✗"));
-            System.out.println("- oauth.yandex.client-id: " + (System.getProperty("oauth.yandex.client-id") != null ? "✓" : "✗"));
-            System.out.println("- oauth.yandex.client-secret: " + (System.getProperty("oauth.yandex.client-secret") != null ? "✓" : "✗"));
 
         } catch (Exception e) {
             System.err.println("Warning: .env file not found, using system environment variables");
@@ -70,4 +36,3 @@ public class Web4Application {
         SpringApplication.run(Web4Application.class, args);
     }
 }
-

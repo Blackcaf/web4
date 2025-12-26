@@ -11,8 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -20,8 +22,10 @@ import java.util.stream.Collectors;
 public class ResultService {
 
     private static final Logger logger = LoggerFactory.getLogger(ResultService.class);
+    private static final Duration CACHE_TTL = Duration.ofMinutes(5);
 
     private final ResultRepository resultRepository;
+    private final CacheService cacheService;
 
 
     public ResultResponse checkPoint(PointRequest request, Long userId) {
@@ -46,6 +50,8 @@ public class ResultService {
 
         result = resultRepository.save(result);
 
+        cacheService.invalidateUserResults(userId);
+
         logger.debug("Point checked: userId={}, x={}, y={}, r={}, hit={}, executionTime={}μs",
                      userId, request.getX(), request.getY(), request.getR(), hit, executionTime);
 
@@ -53,19 +59,39 @@ public class ResultService {
     }
 
     public List<ResultResponse> getUserResults(Long userId) {
+        logger.debug("getUserResults called for userId={}", userId);
+
+        Optional<List<ResultResponse>> cached = cacheService.getUserResults(userId, ResultResponse.class);
+        if (cached.isPresent()) {
+            logger.info("Returning cached results for userId={}, count={}", userId, cached.get().size());
+            return cached.get();
+        }
+
         User user = new User();
         user.setId(userId);
-        List<Result> results = resultRepository.findByUserOrderByTimestampDesc(user);
-        return results.stream()
+        List<Result> results = resultRepository.findTop100ByUserOrderByTimestampDesc(user);
+        List<ResultResponse> responseList = results.stream()
                 .map(this::toResponse)
                 .collect(Collectors.toList());
+
+        cacheService.cacheUserResults(userId, responseList, CACHE_TTL);
+        logger.info("Loaded and cached results from DB for userId={}, count={}", userId, responseList.size());
+
+        return responseList;
     }
 
     @Transactional
     public void clearUserResults(Long userId) {
-        User user = new User();
-        user.setId(userId);
-        resultRepository.deleteByUser(user);
+        logger.info("Starting clearUserResults for userId={}", userId);
+        resultRepository.deleteByUserId(userId);
+        logger.info("Deleted results from DB for userId={}", userId);
+        cacheService.invalidateUserResults(userId);
+        logger.info("Invalidated cache for userId={}", userId);
+    }
+
+    public void updateCacheAfterClear(Long userId) {
+        cacheService.cacheUserResults(userId, List.of(), CACHE_TTL);
+        logger.info("Updated cache with empty list for userId={}", userId);
     }
 
     private ResultResponse toResponse(Result result) {
@@ -80,4 +106,3 @@ public class ResultService {
         );
     }
 }
-
